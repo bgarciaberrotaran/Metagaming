@@ -292,18 +292,36 @@ end
 function LoadVehicles()
 	local OldVehicleID,Data
 	local NewVehicleID
-	
+    local VehicleIDs = {}
+    	
 	for i,v in vfile("Vehicle/Vehicles.txt") do
-	OldVehicleID = tonumber( i )
-	Data = vtonumberTable(vexplode( v, " " ))
-	NewVehicleID = createVehicle(unpack(Data))
-	VehicleData[NewVehicleID] = Data
-	
-	local VehicleFile = io.open("Vehicle/Vehicles.txt","w+b")
-	VehicleFile:write(NewVehicleID  .. " " .. Data)
-	io.close(VehicleFile)
-	
-	end
+	    OldVehicleID = tonumber( i )
+	    Data = vtonumberTable(vexplode( v, " " ))
+	    NewVehicleID = createVehicle(unpack(Data))
+        VehicleIDs[OldVehicleID] = NewVehicleID
+        VehicleData[NewVehicleID] = Data     
+    end
+
+	local NewFileData = {}
+    for i,v in pairs(VehicleData) do
+      table.insert(NewFileData, i.." "..table.concat(v, " ")) 
+    end
+
+    local VehicleFile = io.open("Vehicle/Vehicles.txt","w+b")
+    VehicleFile:write(table.concat(NewFileData,"\r\n"))
+    io.close(VehicleFile)
+
+    NewFileData = {}
+
+    for i,v in vfile("Vehicle/Owner.txt") do
+        OldVehicleID = tonumber(i)
+        table.insert(NewFileData, VehicleIDs[OldVehicleID] .. " " .. v)
+    end
+
+    local VehicleOwners = io.open("Vehicle/Owner.txt","w+b")
+    VehicleOwners:write(table.concat(NewFileData,"\r\n"))
+    io.close(VehicleOwners)
+    
 end
 
 LoadVehicles()	
