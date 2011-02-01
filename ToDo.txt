@@ -1,0 +1,7 @@
+- Outputchatbox system
+- Propeties
+- Timeleft for lottery
+- Fix lottery timer
+- Time control on everything
+- Ranks -- Gold member - Etc etc
+- List of data at player connect

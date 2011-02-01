@@ -1,0 +1,3 @@
+Mex_LoggedIn 0
+Cachibache_LoggedIn 1
+Bruno_LoggedIn 1
